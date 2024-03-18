@@ -1,0 +1,29 @@
+<div
+  class="min-h-[92vh] h-full w-full min-w-[92vh] flex justify-center items-atart pt-4"
+>
+  <div class="flex flex-col gap-4 text-white">
+    <div class="flex gap-4 items-start">
+      <button class="bg-blue-600 py-2 px-6 rounded-lg" (click)="Reset()">
+        Reset
+      </button>
+      <button class="bg-blue-600 py-2 px-6 rounded-lg" (click)="AddNew()">Add</button>
+    </div>
+    <div>
+      <div
+        *ngFor="let count of counts; let i = index"
+        class="flex gap-4 items-center"
+      >
+        <p class="bg-blue-600 py-2 px-6 rounded-lg">{{ count }}</p>
+        <button class="bg-gray-600 py-2 px-6 rounded-lg" (click)="Increment(i)">
+          Increment ++
+        </button>
+        <button class="bg-gray-600 py-2 px-6 rounded-lg" (click)="Decrement(i)">
+          Decrement --
+        </button>
+        <button class="bg-red-600 py-2 px-6 rounded-lg" (click)="Delete(i)">
+          Delete X
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
