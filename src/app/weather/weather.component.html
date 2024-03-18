@@ -1,5 +1,28 @@
 <div
-  class="min-h-[92vh] h-full w-full min-w-[92vh] flex justify-center items-center"
+  class="min-h-[92vh] h-full w-full min-w-[92vh] flex flex-row justify-center items-center gap-8"
 >
-  <p>Weather works</p>
+  <div class="w-[25vw] h-[92vh] border-2 rounded-lg p-4 border-black">
+    <div>
+      <input type="text" [(ngModel)]="queryText" />
+      <button (click)="addCity(queryText)">Add</button>
+    </div>
+    <div>
+      <div *ngFor="let city of citiesList; let i = index" class="flex gap-2">
+        <p (click)="getCityWeatherData(city)">{{ city }}</p>
+        <button (click)="refreshCity(city)">Refresh</button>
+        <button (click)="deleteCity(i)">Delete</button>
+      </div>
+    </div>
+    <button>Clear</button>
+  </div>
+  <div class="w-[70vw] h-[92vh] border-2 rounded-lg p-4 border-black">
+    <p>{{ cityWeatherData.city }}</p>
+    <button (click)="refreshCity(cityWeatherData.city)">Refresh</button>
+    <div *ngFor="let weather of cityWeatherData.weather; let i = index">
+      <p>{{ weather.date }}</p>
+      <p>{{ weather.temperature }}</p>
+      <p>{{ weather.wind }}</p>
+      <p>{{ weather.pressure }}</p>
+    </div>
+  </div>
 </div>

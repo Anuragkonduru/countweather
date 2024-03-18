@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'vatavaran', component: WeatherComponent },
   {
     path: '**',
-    component: CounterComponent,
+    component: WeatherComponent,
   },
 ];
 
