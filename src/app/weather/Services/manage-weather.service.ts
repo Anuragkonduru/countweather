@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { WeatherData } from '../Interfaces/WeatherData';
 import { ManageCitiesService } from './manage-cities.service';
 //http://api.openweathermap.org/data/2.5/weather?q=mumbai&appid=d4594364698122bfd1c4b3eb5f2ff19f
-//http://api.openweathermap.org/data/2.5/forecast?q=azadshahr&appid=d4594364698122bfd1c4b3eb5f2ff19f&units&metric
+//http://api.openweathermap.org/data/2.5/forecast?q=azadshahr&appid=d4594364698122bfd1c4b3eb5f2ff19f&units=metric
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class ManageWeatherService {
   citiesListWeatherData: WeatherData[] = [];
   private citiesListWeatherDataSubject = new BehaviorSubject<any[]>([]);
   constructor(private http: HttpClient, private cities: ManageCitiesService) {
-    this.cities.getCities().subscribe((citieslist) => {
+    this.cities.getCitiesList().subscribe((citieslist) => {
       this.citiesList = citieslist;
     });
     this.citiesList.map((city) => {
@@ -28,6 +28,7 @@ export class ManageWeatherService {
     this.citiesListWeatherDataSubject.next([...this.citiesListWeatherData]);
   }
   getCityWeatherData(city: string) {
+    this.fetchOrRefreshWeatherData(city);
     return this.citiesListWeatherDataSubject
       .asObservable()
       .pipe(map((data: any[]) => data.find((item) => item.city === city)));
@@ -46,27 +47,51 @@ export class ManageWeatherService {
     });
     this.citiesListWeatherDataSubject.next([...this.citiesListWeatherData]);
   }
+
   getWeatherData(city: string): Observable<WeatherData> {
+    const cityName = typeof city === 'string' ? city : 'mumbai';
     const params = new HttpParams()
-      .set('q', city)
+      .set('q', cityName)
       .set('appid', this.apiKey)
+      .set('units', 'metric')
       .set('units', 'metric');
-    return this.http.get<any>(this.apiUrl, { params }).pipe(
-      map((response) => ({
-        city: response.city.name,
-        weather: response.list.map(
-          (item: {
-            dt_txt: any;
-            main: { temp: any; pressure: any };
-            wind: { speed: any };
-          }) => ({
-            date: item.dt_txt,
-            temperature: item.main.temp,
-            wind: item.wind.speed,
-            pressure: item.main.pressure,
-          })
-        ),
-      }))
-    );
+    return this.http
+      .get<any>(this.apiUrl, { params })
+      .pipe(map((response) => this.filterWeatherData(response)));
+  }
+  private filterWeatherData(response: any): WeatherData {
+    const today = new Date();
+    const forecast: any[] = [];
+    const datesEncountered: string[] = [];
+
+    response.list.forEach((item: any) => {
+      const date = new Date(item.dt * 1000);
+      const dateKey = date.toLocaleDateString('en-US', {
+        day: 'numeric',
+        weekday: 'short',
+      });
+
+      if (
+        date >= today &&
+        !datesEncountered.includes(dateKey) &&
+        forecast.length < 6
+      ) {
+        const windSpeed = item.wind.speed.toFixed(2);
+        const windDirection = item.wind.deg;
+        forecast.push({
+          date: dateKey,
+          temperature: Math.round(item.main.temp),
+          weather: item.weather[0].main,
+          wind: `${windSpeed} m/s ${windDirection}°`,
+          pressure: item.main.pressure,
+        });
+        datesEncountered.push(dateKey);
+      }
+    });
+
+    return {
+      city: response.city.name,
+      weather: forecast,
+    };
   }
 }

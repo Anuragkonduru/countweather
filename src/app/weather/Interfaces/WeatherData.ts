@@ -3,6 +3,7 @@ export interface WeatherData {
   weather: {
     date: string;
     temperature: string;
+    weather: string;
     wind: string;
     pressure: string;
   }[];

@@ -1,28 +1,185 @@
 <div
   class="min-h-[92vh] h-full w-full min-w-[92vh] flex flex-row justify-center items-center gap-8"
 >
-  <div class="w-[25vw] h-[92vh] border-2 rounded-lg p-4 border-black">
-    <div>
-      <input type="text" [(ngModel)]="queryText" />
-      <button (click)="addCity(queryText)">Add</button>
+  <div class="w-[25vw] h-[92vh] border-2 p-4 border-black flex flex-col gap-4">
+    <div class="flex pl-4 gap-8 border-b-4 border-black pb-4">
+      <input
+        class="border-2 w-80 h-10 border-b-black"
+        type="text"
+        [(ngModel)]="queryText"
+        (keydown.enter)="addCity(queryText)"
+        placeholder="Type city name"
+      />
+      <button (click)="addCity(queryText)">
+        <fa-icon [icon]="faPlus" size="xl"></fa-icon>
+      </button>
     </div>
-    <div>
-      <div *ngFor="let city of citiesList; let i = index" class="flex gap-2">
-        <p (click)="getCityWeatherData(city)">{{ city }}</p>
-        <button (click)="refreshCity(city)">Refresh</button>
-        <button (click)="deleteCity(i)">Delete</button>
+    <div class="h-[80vh] border border-black">
+      <p class="border-b-black border">Recent Locations</p>
+      <div
+        class="w-full border-b-gray-500 border"
+        *ngFor="let city of citiesList; let i = index"
+      >
+        <div *ngIf="city.cityName !== ''" class="flex gap-2">
+          <div
+            class="cursor-pointer flex items-center w-full pl-2 gap-2"
+            (click)="getCityWeatherData(city.cityName)"
+          >
+            {{ city.cityName }} - {{ city.temperature }}C {{ city.feelsLike }}
+            <img
+              class="w-10"
+              src="assets/icons/cloudy-day-1.svg"
+              *ngIf="city.feelsLike == 'Clouds'"
+              alt=""
+            />
+            <img
+              class="w-10"
+              src="assets/icons/rainy-1.svg"
+              *ngIf="city.feelsLike == 'Rainy'"
+              alt=""
+            />
+            <img
+              class="w-10"
+              src="assets/icons/snowy-1.svg"
+              *ngIf="city.feelsLike == 'Snowy'"
+              alt=""
+            />
+            <img
+              class="w-10"
+              src="assets/icons/cloudy.svg"
+              *ngIf="city.feelsLike == 'Haze'"
+              alt=""
+            />
+            <img
+              class="w-10"
+              src="assets/icons/day.svg"
+              *ngIf="city.feelsLike == 'Clear'"
+              alt=""
+            />
+            <img
+              class="w-10"
+              src="assets/icons/rainy-7.svg"
+              *ngIf="city.feelsLike == 'Smoke'"
+              alt=""
+            />
+          </div>
+          <button (click)="refreshCity(city.cityName)">
+            <fa-icon [icon]="faRotate" size="xl"></fa-icon>
+          </button>
+          <button class="p-2" (click)="deleteCity(i)">
+            <fa-icon [icon]="faXmark" size="xl"></fa-icon>
+          </button>
+        </div>
       </div>
     </div>
-    <button>Clear</button>
+    <div class="w-full flex items-end justify-end">
+      <button
+        class="bg-gray-300 w-20 px-3 py-1 hover:text-white hover:bg-gray-500"
+        (click)="clearCities()"
+      >
+        Clear
+      </button>
+    </div>
   </div>
-  <div class="w-[70vw] h-[92vh] border-2 rounded-lg p-4 border-black">
-    <p>{{ cityWeatherData.city }}</p>
-    <button (click)="refreshCity(cityWeatherData.city)">Refresh</button>
-    <div *ngFor="let weather of cityWeatherData.weather; let i = index">
-      <p>{{ weather.date }}</p>
-      <p>{{ weather.temperature }}</p>
-      <p>{{ weather.wind }}</p>
-      <p>{{ weather.pressure }}</p>
+  <div class="w-[70vw] h-[92vh] border-2 p-4 border-black flex flex-col">
+    <div class="flex w-full justify-between">
+      <p class="text-3xl font-bold">{{ cityWeatherData.city }}</p>
+      <button (click)="refreshCity(cityWeatherData.city)">
+        <fa-icon [icon]="faRotate" size="xl"></fa-icon>
+      </button>
+    </div>
+    <div
+      *ngFor="let weather of cityWeatherData.weather; let i = index"
+      class="flex w-full items-center"
+    >
+      <div div *ngIf="i == 0" class="flex h-[50vh] items-center justify-center">
+        <div class="w-96 h-96 boder border-black">
+          <img
+            class="w-96"
+            src="assets/icons/cloudy-day-1.svg"
+            *ngIf="weather.weather == 'Clouds'"
+            alt=""
+          />
+          <img
+            class="w-96"
+            src="assets/icons/rainy-1.svg"
+            *ngIf="weather.weather == 'Rainy'"
+            alt=""
+          />
+          <img
+            class="w-96"
+            src="assets/icons/snowy-1.svg"
+            *ngIf="weather.weather == 'Snowy'"
+            alt=""
+          />
+          <img
+            class="w-96"
+            src="assets/icons/cloudy.svg"
+            *ngIf="weather.weather == 'Haze'"
+            alt=""
+          />
+          <img
+            class="w-96"
+            src="assets/icons/rainy-7.svg"
+            *ngIf="weather.weather == 'Smoke'"
+            alt=""
+          />
+        </div>
+        <div class="flex h-96 flex-col gap-6 items-start justify-center">
+          <p>{{ weather.weather }}</p>
+          <p>{{ weather.temperature }}C</p>
+          <p>Wind: {{ weather.wind }}</p>
+          <p>Pressure: {{ weather.pressure }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-full flex pl-4 gap-8">
+      <div
+        *ngFor="let weather of cityWeatherData.weather; let i = index"
+        class="flex"
+      >
+        <div *ngIf="i !== 0" class="flex flex-col justify-end items-center">
+          <p>{{ weather.date }}</p>
+          <img
+            class="w-24"
+            src="assets/icons/cloudy-day-1.svg"
+            *ngIf="weather.weather == 'Clouds'"
+            alt=""
+          />
+          <img
+            class="w-24"
+            src="assets/icons/rainy-1.svg"
+            *ngIf="weather.weather == 'Rainy'"
+            alt=""
+          />
+          <img
+            class="w-24"
+            src="assets/icons/snowy-1.svg"
+            *ngIf="weather.weather == 'Snowy'"
+            alt=""
+          />
+          <img
+            class="w-24"
+            src="assets/icons/cloudy.svg"
+            *ngIf="weather.weather == 'Haze'"
+            alt=""
+          />
+          <img
+            class="w-24"
+            src="assets/icons/day.svg"
+            *ngIf="weather.weather == 'Clear'"
+            alt=""
+          />
+          <img
+            class="w-24"
+            src="assets/icons/rainy-7.svg"
+            *ngIf="weather.weather == 'Smoke'"
+            alt=""
+          />
+          <p>{{ weather.weather }}</p>
+          <p>{{ weather.temperature }}C</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
