@@ -62,6 +62,12 @@
               *ngIf="city.feelsLike == 'Smoke'"
               alt=""
             />
+            <img
+              class="w-10"
+              src="assets/icons/rainy-1.svg"
+              *ngIf="city.feelsLike == 'Rain'"
+              alt=""
+            />
           </div>
           <button (click)="refreshCity(city.cityName)">
             <fa-icon [icon]="faRotate" size="xl"></fa-icon>
@@ -124,6 +130,18 @@
             *ngIf="weather.weather == 'Smoke'"
             alt=""
           />
+          <img
+            class="w-96"
+            src="assets/icons/day.svg"
+            *ngIf="weather.weather == 'Clear'"
+            alt=""
+          />
+          <img
+            class="w-96"
+            src="assets/icons/rainy-1.svg"
+            *ngIf="weather.weather == 'Rain'"
+            alt=""
+          />
         </div>
         <div class="flex h-96 flex-col gap-6 items-start justify-center">
           <p>{{ weather.weather }}</p>
@@ -149,7 +167,7 @@
           <img
             class="w-24"
             src="assets/icons/rainy-1.svg"
-            *ngIf="weather.weather == 'Rainy'"
+            *ngIf="weather.weather == 'Rain'"
             alt=""
           />
           <img

@@ -6,9 +6,11 @@
       <button class="bg-blue-600 py-2 px-6 rounded-lg" (click)="Reset()">
         Reset
       </button>
-      <button class="bg-blue-600 py-2 px-6 rounded-lg" (click)="AddNew()">Add</button>
+      <button class="bg-blue-600 py-2 px-6 rounded-lg" (click)="AddNew()">
+        Add
+      </button>
     </div>
-    <div>
+    <div class="flex flex-col gap-2">
       <div
         *ngFor="let count of counts; let i = index"
         class="flex gap-4 items-center"

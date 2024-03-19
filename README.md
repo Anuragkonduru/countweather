@@ -1,27 +1,37 @@
-# Countweather
+# Angular Weather & Counter App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
+### Description:
 
-## Development server
+This project comprises two Angular applications - Increment/Decrement Counter App and Weather App. The Counter App enables users to manage multiple counters with options to increment, decrement, and delete them. The Weather App utilizes the OpenWeather API to fetch weather data for specified cities and displays detailed forecasts.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features:
 
-## Code scaffolding
+### Counter App:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Dynamically add new counters with the ability to increment, decrement, and delete them.
+- Reset button to clear all counters.
+- Navbar displays the number of counters added.
+- Real-time updates of counter values upon incrementing or decrementing.
+- Utilizes Angular for robust frontend development.
+- Styled using Tailwind CSS for modern UI design.
+- Toastr notifications for user feedback.
 
-## Build
+### Weather App:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Input field for adding city names with validation.
+- Display of recent locations with temperature and weather status.
+- Refresh button to update weather readings for a specific location.
+- Removal of locations from the list.
+- Detailed weather forecast for selected city with a 5-day forecast.
+- Clear button to remove all locations from the list.
+- Limit of 8 locations in the list, with automatic management of oldest entries.
+- Angular framework for frontend development.
+- Tailwind CSS for styling with a sleek and responsive design.
+- ngToastr for displaying notifications to users.
 
-## Running unit tests
+## Technologies Used:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular framework for frontend development.
+- Tailwind CSS for styling and responsiveness.
+- ngToastr for displaying notifications.
+- OpenWeather API for weather data retrieval.
