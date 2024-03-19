@@ -45,7 +45,7 @@ export class ManageCitiesService {
 
             this.citiesList.unshift(cityData);
 
-            if (this.citiesList.length > 10) {
+            if (this.citiesList.length > 8) {
               this.citiesList.pop();
             }
 
