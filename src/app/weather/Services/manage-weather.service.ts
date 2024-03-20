@@ -16,6 +16,7 @@ export class ManageWeatherService {
   citiesList: string[] = [];
   citiesListWeatherData: WeatherData[] = [];
   private citiesListWeatherDataSubject = new BehaviorSubject<any[]>([]);
+
   constructor(private http: HttpClient, private cities: ManageCitiesService) {
     this.cities.getCitiesList().subscribe((citieslist) => {
       this.citiesList = citieslist;
@@ -27,12 +28,15 @@ export class ManageWeatherService {
     });
     this.citiesListWeatherDataSubject.next([...this.citiesListWeatherData]);
   }
+
+  // getCityWeatherData: Returns an observable for the weather data of a specific city.
   getCityWeatherData(city: string) {
     this.fetchOrRefreshWeatherData(city);
     return this.citiesListWeatherDataSubject
       .asObservable()
       .pipe(map((data: any[]) => data.find((item) => item.city === city)));
   }
+  // fetchOrRefreshWeatherData: Fetches weather data for a city and updates the citiesListWeatherData array with the latest data. If the city is already in the list, it updates its data; otherwise, it adds the new city data to the list.
   fetchOrRefreshWeatherData(city: string) {
     this.getWeatherData(city).subscribe((cityData) => {
       const index = this.citiesListWeatherData.findIndex(
@@ -48,6 +52,7 @@ export class ManageWeatherService {
     this.citiesListWeatherDataSubject.next([...this.citiesListWeatherData]);
   }
 
+  // getWeatherData: Makes an HTTP request to fetch weather data for a given city.
   getWeatherData(city: string): Observable<WeatherData> {
     const cityName = typeof city === 'string' ? city : 'mumbai';
     const params = new HttpParams()
@@ -59,6 +64,8 @@ export class ManageWeatherService {
       .get<any>(this.apiUrl, { params })
       .pipe(map((response) => this.filterWeatherData(response)));
   }
+
+  // filterWeatherData: Processes the raw API response to extract and format the required weather data.
   private filterWeatherData(response: any): WeatherData {
     const today = new Date();
     const forecast: any[] = [];

@@ -15,15 +15,19 @@ export class ManageCitiesService {
   private citiesList: CityData[] = [
     { cityName: '', temperature: 0, feelsLike: '' },
   ];
+  
   private citiesListSubject = new BehaviorSubject<any[]>([]);
   constructor(private http: HttpClient, private toastr: ToastrService) {
     this.citiesListSubject.next([...this.citiesList]);
     this.allCities = citiesData.cities;
   }
 
+  // getCitiesList: Returns an observable of the current list of cities.
   getCitiesList() {
     return this.citiesListSubject.asObservable();
   }
+
+  // addCity: Adds a new city to the list if it doesn't already exist and fetches its weather data.
   addCity(city: string): Observable<boolean> {
     const cityName = city
       .toLowerCase()
@@ -61,6 +65,8 @@ export class ManageCitiesService {
       return of(false);
     }
   }
+
+  // getTempForCity: Fetches the temperature and weather condition for a given city.
   getTempForCity(city: string): Observable<any> {
     const params = new HttpParams().set('q', city).set('appid', this.apiKey);
     return this.http.get<any>(this.apiUrl, { params }).pipe(
@@ -70,10 +76,14 @@ export class ManageCitiesService {
       })
     );
   }
+
+  // deleteCity: Removes a city from the list based on its index.
   deleteCity(index: number) {
     this.citiesList.splice(index, 1);
     this.citiesListSubject.next([...this.citiesList]);
   }
+  
+  // resetCitiesList: Clears the cities list and resets it to an empty state.
   resetCitiesList() {
     console.log('reset called');
     try {
