@@ -5,7 +5,7 @@
 This project comprises two Angular applications - Increment/Decrement Counter App and Weather App. The Counter App enables users to manage multiple counters with options to increment, decrement, and delete them. The Weather App utilizes the OpenWeather API to fetch weather data for specified cities and displays detailed forecasts.
 
 ## Demo:
-[Link](https://counter-weather.netlify.app/vatavaran)
+[Link](https://counter-weather.netlify.app)
 
 ## Features:
 
