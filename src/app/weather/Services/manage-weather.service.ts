@@ -16,7 +16,6 @@ export class ManageWeatherService {
   private citiesListWeatherDataSubject = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient, private cities: ManageCitiesService) {
-    console.log(this.apiKey);
     this.cities.getCitiesList().subscribe((citieslist) => {
       this.citiesList = citieslist;
     });
