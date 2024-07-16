@@ -5,11 +5,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { citiesData } from '../Data/Cities';
 import { CityData } from '../Interfaces/CityData';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ManageCitiesService {
-  private apiKey = process.env['API_KEY'] || '';
+  private apiKey = environment.API_KEY;
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
   private allCities: string[] = [];
   private citiesList: CityData[] = [
