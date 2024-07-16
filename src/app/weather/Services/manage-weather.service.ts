@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { WeatherData } from '../Interfaces/WeatherData';
 import { ManageCitiesService } from './manage-cities.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -17,6 +16,7 @@ export class ManageWeatherService {
   private citiesListWeatherDataSubject = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient, private cities: ManageCitiesService) {
+    console.log(this.apiKey);
     this.cities.getCitiesList().subscribe((citieslist) => {
       this.citiesList = citieslist;
     });

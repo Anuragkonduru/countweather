@@ -18,6 +18,7 @@ export class ManageCitiesService {
 
   private citiesListSubject = new BehaviorSubject<any[]>([]);
   constructor(private http: HttpClient, private toastr: ToastrService) {
+    console.log(this.apiKey);
     this.citiesListSubject.next([...this.citiesList]);
     this.allCities = citiesData.cities;
   }
