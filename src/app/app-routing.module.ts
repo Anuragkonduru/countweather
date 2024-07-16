@@ -4,7 +4,7 @@ import { CounterComponent } from './counter/counter.component';
 import { WeatherComponent } from './weather/weather.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/counter', pathMatch: 'full' },
+  { path: '', redirectTo: '/vatavaran', pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'vatavaran', component: WeatherComponent },
   {

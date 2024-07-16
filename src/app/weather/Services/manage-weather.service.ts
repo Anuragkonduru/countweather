@@ -4,14 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WeatherData } from '../Interfaces/WeatherData';
 import { ManageCitiesService } from './manage-cities.service';
-//http://api.openweathermap.org/data/2.5/weather?q=mumbai&appid=d4594364698122bfd1c4b3eb5f2ff19f
-//http://api.openweathermap.org/data/2.5/forecast?q=azadshahr&appid=d4594364698122bfd1c4b3eb5f2ff19f&units=metric
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ManageWeatherService {
-  private apiKey = 'd4594364698122bfd1c4b3eb5f2ff19f';
+  private apiKey = process.env['API_KEY'] || '';
   private apiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
   citiesList: string[] = [];
   citiesListWeatherData: WeatherData[] = [];

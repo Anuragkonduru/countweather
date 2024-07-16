@@ -9,13 +9,13 @@ import { CityData } from '../Interfaces/CityData';
   providedIn: 'root',
 })
 export class ManageCitiesService {
-  private apiKey = 'd4594364698122bfd1c4b3eb5f2ff19f';
+  private apiKey = process.env['API_KEY'] || '';
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
   private allCities: string[] = [];
   private citiesList: CityData[] = [
     { cityName: '', temperature: 0, feelsLike: '' },
   ];
-  
+
   private citiesListSubject = new BehaviorSubject<any[]>([]);
   constructor(private http: HttpClient, private toastr: ToastrService) {
     this.citiesListSubject.next([...this.citiesList]);
@@ -82,7 +82,7 @@ export class ManageCitiesService {
     this.citiesList.splice(index, 1);
     this.citiesListSubject.next([...this.citiesList]);
   }
-  
+
   // resetCitiesList: Clears the cities list and resets it to an empty state.
   resetCitiesList() {
     console.log('reset called');
